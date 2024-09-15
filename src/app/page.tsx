@@ -1,9 +1,9 @@
-// app/accueil/page.tsx
+// app/page.tsx
 
 import React from 'react';
 import Link from 'next/link';
 
-const Accueil: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <div>
       <h1>Accueil</h1>
@@ -18,4 +18,4 @@ const Accueil: React.FC = () => {
   );
 };
 
-export default Accueil;
+export default Home;
