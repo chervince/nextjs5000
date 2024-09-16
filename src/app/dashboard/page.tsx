@@ -3,20 +3,24 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabaseClient";
-import { User } from "@supabase/supabase-js";  // Import du type 'User'
+import { User } from "@supabase/supabase-js";
 
 export default function Dashboard() {
-    // Utilisation de 'Partial<User>' pour permettre des propriétés partielles
-    const [user, setUser] = useState<Partial<User> | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
     useEffect(() => {
         const checkUser = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session }, error } = await supabase.auth.getSession();
 
-            // Si 'session.user' existe, on l'assigne au state
+            if (error) {
+                console.error("Erreur lors de la récupération de la session :", error);
+                router.push("/login");
+                return;
+            }
+
             if (session?.user) {
-                setUser(session.user);  // Typage de l'utilisateur avec 'Partial<User>'
+                setUser(session.user);
             } else {
                 router.push("/login");
             }
@@ -30,9 +34,12 @@ export default function Dashboard() {
     }
 
     return (
-        <div>
-            <h1>Bienvenue, {user.email ?? 'Utilisateur inconnu'} !</h1>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+            <h1 className="text-2xl font-bold mb-4">
+                Bienvenue, {user.email ?? 'Utilisateur inconnu'} !
+            </h1>
             <button
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 onClick={async () => {
                     await supabase.auth.signOut();
                     router.push("/login");
