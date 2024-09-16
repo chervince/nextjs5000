@@ -1,12 +1,12 @@
-"use client";  // Assure-toi d'avoir cette directive en haut du fichier
+"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabaseClient";
-import { User } from "@supabase/supabase-js";  // Import du type 'User'
+import { User } from "@supabase/supabase-js";  // Assure-toi que 'User' est importé correctement
 
 export default function Dashboard() {
-    // On utilise 'SetStateAction' pour permettre l'utilisation de 'User' ou 'null'
+    // On indique explicitement que 'user' peut être un 'User' ou 'null'
     const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
@@ -14,7 +14,8 @@ export default function Dashboard() {
         const checkUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
             if (session?.user) {
-                setUser(() => session.user);  // On utilise une fonction pour le setStateAction
+                // 'setUser' peut accepter un 'User' ou 'null'
+                setUser(session.user);
             } else {
                 router.push("/login");
             }
@@ -30,10 +31,12 @@ export default function Dashboard() {
     return (
         <div>
             <h1>Bienvenue, {user.email} !</h1>
-            <button onClick={async () => {
-                await supabase.auth.signOut();
-                router.push("/login");
-            }}>
+            <button
+                onClick={async () => {
+                    await supabase.auth.signOut();
+                    router.push("/login");
+                }}
+            >
                 Déconnexion
             </button>
         </div>
