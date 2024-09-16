@@ -3,19 +3,20 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabaseClient";
-import { User } from "@supabase/supabase-js";  // Assure-toi que 'User' est importé correctement
+import { User } from "@supabase/supabase-js";  // Import du type 'User'
 
 export default function Dashboard() {
-    // On indique explicitement que 'user' peut être un 'User' ou 'null'
-    const [user, setUser] = useState<User | null>(null);
+    // Utilisation de 'Partial<User>' pour permettre des propriétés partielles
+    const [user, setUser] = useState<Partial<User> | null>(null);
     const router = useRouter();
 
     useEffect(() => {
         const checkUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
+
+            // Si 'session.user' existe, on l'assigne au state
             if (session?.user) {
-                // 'setUser' peut accepter un 'User' ou 'null'
-                setUser(session.user);
+                setUser(session.user);  // Typage de l'utilisateur avec 'Partial<User>'
             } else {
                 router.push("/login");
             }
@@ -30,7 +31,7 @@ export default function Dashboard() {
 
     return (
         <div>
-            <h1>Bienvenue, {user.email} !</h1>
+            <h1>Bienvenue, {user.email ?? 'Utilisateur inconnu'} !</h1>
             <button
                 onClick={async () => {
                     await supabase.auth.signOut();
