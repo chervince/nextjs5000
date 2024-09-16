@@ -1,44 +1,39 @@
-"use client";
+"use client";  // Assure-toi d'avoir cette directive en haut du fichier
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabaseClient";
-import { useRouter } from "next/navigation"; // Utilisé pour rediriger après la déconnexion
+import { User } from "@supabase/supabase-js";  // Import du type 'User'
 
 export default function Dashboard() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);  // user peut être 'User' ou 'null'
     const router = useRouter();
 
     useEffect(() => {
-        // Récupère les informations de l'utilisateur connecté
-        const getUser = async () => {
+        const checkUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
             if (session?.user) {
-                setUser(session.user);
+                setUser(session.user);  // On assigne le 'User' ici
             } else {
-                // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
                 router.push("/login");
             }
         };
-        getUser();
-    }, [router]);
 
-    const handleLogout = async () => {
-        await supabase.auth.signOut();
-        router.push("/login"); // Redirection vers la page de login après déconnexion
-    };
+        checkUser();
+    }, [router]);
 
     if (!user) {
         return <p>Chargement...</p>;
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-4">Bienvenue, {user.email}</h1>
-            <p className="mb-4">Vous êtes connecté.</p>
-            <button
-                onClick={handleLogout}
-                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300"
-            >
-                Se déconnecter
+        <div>
+            <h1>Bienvenue, {user.email} !</h1>
+            <button onClick={async () => {
+                await supabase.auth.signOut();
+                router.push("/login");
+            }}>
+                Déconnexion
             </button>
         </div>
     );

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function HeroSection() {
     return (
-        <section className="relative bg-cover bg-center py-24" style={{ backgroundImage: 'url("/images/hero-bg.jpg")' }}>
+        <section className="relative bg-cover bg-center py-24" style={{ backgroundImage: 'url("/images/shop_page_header_image.webp")' }}>
             <div className="container mx-auto px-4 text-center relative z-10">
                 <h1 className="text-5xl font-bold text-white mb-4">Transformez votre entreprise avec Neith Consulting</h1>
                 <p className="text-lg text-white mb-8">
