@@ -3,18 +3,31 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 
+// Définir le type pour les prospects (ajuste selon la structure réelle de la table)
+interface Prospect {
+    id: string;
+    nom: string;
+    prenom: string;
+    email: string;
+    telephone: string;
+}
+
 export default function Inscriptions() {
-    const [prospects, setProspects] = useState([]);
+    // Utiliser le type Prospect[] pour initialiser le state
+    const [prospects, setProspects] = useState<Prospect[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProspects = async () => {
             const { data, error } = await supabase.from('prospects').select('*');
+
             if (error) {
                 console.error("Erreur lors de la récupération des prospects :", error);
             } else {
-                setProspects(data);
+                // Utiliser as Prospect[] pour typer les données
+                setProspects(data as Prospect[]);
             }
+
             setLoading(false);
         };
 
@@ -50,5 +63,4 @@ export default function Inscriptions() {
             </table>
         </div>
     );
-
 }
