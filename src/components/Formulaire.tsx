@@ -41,9 +41,12 @@ export default function Formulaire() {
             // Upload de la photo sur Supabase Storage (si une photo est sélectionnée)
             let photoUrl = null;
             if (formData.photo) {
+                // Générer un nom unique pour éviter les conflits
+                const uniqueFileName = `${Date.now()}-${formData.photo.name}`;
+
                 const { data, error } = await supabase.storage
                     .from("photos")
-                    .upload(`prospects/${formData.photo.name}`, formData.photo);
+                    .upload(`prospects/${uniqueFileName}`, formData.photo);
 
                 if (error) {
                     console.error("Erreur lors de l'upload de la photo :", error.message);
@@ -62,7 +65,7 @@ export default function Formulaire() {
                 nom: formData.nom,
                 prenom: formData.prenom,
                 telephone: formData.telephone,
-                photo_url: photoUrl,
+                photo_url: photoUrl,  // Assure-toi que ce champ existe dans la table
             });
 
             if (error) {
@@ -79,8 +82,6 @@ export default function Formulaire() {
             setLoading(false);
         }
     };
-
-
 
     return (
         <div>
