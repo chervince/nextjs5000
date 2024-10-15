@@ -4,7 +4,7 @@ import React from "react";
 
 export default function SimpleSlider() {
     const slides = [
-        "/images/shop_page_header_image.webp",
+        "/images/header-vtt-1",
         "/images/shop_page_header_image.webp",
         "/images/shop_page_header_image.webp",
     ];
