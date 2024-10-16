@@ -1,3 +1,5 @@
+//src/components/SimpleSlider.tsx
+
 "use client";
 
 import React from "react";
@@ -5,8 +7,8 @@ import React from "react";
 export default function SimpleSlider() {
     const slides = [
         "/images/header-vtt-1.webp",
-        "/images/shop_page_header_image.webp",
-        "/images/shop_page_header_image.webp",
+        "/images/header-vtt-1.webp",
+        "/images/header-vtt-1.webp",
     ];
     const [currentSlide, setCurrentSlide] = React.useState(0);
 
@@ -26,7 +28,7 @@ export default function SimpleSlider() {
     }, []);
 
     return (
-        <div className="relative w-full h-64 overflow-hidden">
+        <div className="relative w-full h-96 overflow-hidden">
             {slides.map((slide, index) => (
                 <div
                     key={index}
