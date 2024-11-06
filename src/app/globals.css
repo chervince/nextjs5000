@@ -3,26 +3,147 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Importation des polices via CDN */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap');
+
+:root {
+  /* Color scheme */
+  --background: #1a1a1a;
+  --foreground: #e0e0e0;
+  --primary: #3490dc;
+  --secondary: #ffed4a;
+  --accent: #38a169;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --card-bg: #2a2a2a;
+
+  /* Typography */
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+
+  /* Spacing */
+  --spacing-unit: 0.25rem;
+}
+
+/* Pour passer facilement à un thème clair, décommentez cette section */
+/*
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a1a;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --card-bg: #f0f0f0;
 }
+*/
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: var(--font-body);
+    @apply antialiased flex flex-col min-h-screen;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@layer components {
+  .heading-1 {
+    @apply text-4xl font-bold mb-4;
+    color: var(--text-primary);
+  }
+
+  .heading-2 {
+    @apply text-3xl mb-4;
+    color: var(--text-primary);
+  }
+
+  .heading-3 {
+    @apply text-xl mb-4;
+    color: var(--text-primary);
+  }
+
+  .paragraph {
+    @apply text-base mb-6;
+    color: var(--text-secondary);
+  }
+
+  .container {
+    @apply mx-auto px-4;
+    max-width: 1200px;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded transition duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+  }
+
+  .btn-secondary {
+    @apply bg-yellow-400 text-gray-800 hover:bg-yellow-500;
+  }
+
+  .card {
+    background-color: var(--card-bg);
+    @apply rounded-lg shadow-md p-6;
+  }
+}
+
+/* Styles pour le header et le footer */
+body>div:first-child,
+body>div:last-child {
+  @apply flex-shrink-0;
+}
+
+/* Style pour le contenu principal */
+main {
+  @apply flex-grow;
+}
+
+/* LMV Ride specific styles */
+.event-card {
+  @apply card mb-4;
+}
+
+.event-title {
+  @apply text-2xl font-bold mb-2;
+  color: var(--text-primary);
+}
+
+.event-date {
+  @apply text-sm mb-2;
+  color: var(--text-secondary);
+}
+
+.event-description {
+  color: var(--text-secondary);
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  @apply hover:text-white transition duration-300;
+}
+
+.active-nav-link {
+  @apply text-blue-500 font-semibold;
 }

@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        sans: ['Roboto', 'sans-serif'],
+        heading: ['Montserrat', 'sans-serif'],
+      },
     },
   },
   plugins: [],
